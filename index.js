@@ -2,6 +2,27 @@ const axios = require("axios");
 const fs = require('fs');
 const { open } = require('node:fs/promises'); 
 
+class ColorClass
+{
+    White = "\x1b[37m";
+    Cyan = "\x1b[36m";
+    Magenta = "\x1b[35m";
+    Blue = "\x1b[34m";
+    Yellow = "\x1b[33m";
+    Green = "\x1b[32m";
+    Red = "\x1b[31m";
+    Black = "\x1b[30m";
+};
+
+class ConsoleOutputClass {
+    Output(color, type, information) 
+    {
+        console.log(`${Colors.White}[${color}${type}${Colors.White}] ${information}`);
+    }
+};
+
+const Colors = new ColorClass;
+const Console = new ConsoleOutputClass;
 async function CreateRequest(code)
 {
     await axios({
@@ -30,12 +51,13 @@ async function CreateRequest(code)
         // handle success
         if(response.status == 200)
         {
-            console.log(`Code found: ${code}`)
+            Console.Output(Colors.Green, "SUCCESS", code);
             const data = fs.readFileSync("WorkingCodes.txt", "utf8");
             fs.writeFileSync("WorkingCodes.txt", `${data}${code}\n`);
         }
       })
       .catch(function (error) {
+        Console.Output(Colors.Red, "INVALID", code);
         return;
         // handle error
         //console.log(error);
@@ -51,9 +73,11 @@ async function Main()
     const file = await open('ReadWords.txt'); 
       
     for await (const line of file.readLines()) { 
+        Console.Output(Colors.Yellow, "CHECKING", line);
         await CreateRequest(line);
         await sleep(500);
     } 
+    Console.Output(Colors.Blue, "FINISHED", `All the keywords were checked!`);
 }
 
 Main();
