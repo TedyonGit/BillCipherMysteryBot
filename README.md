@@ -12,6 +12,6 @@ node .
 to run the bot.
 
 # Info
-You need to add keywords/codes in the "ReadWords.txt" and the bot will verify each of them and if he founds a good response he will save it in the "WorkingCodes.txt" file.
+You need to add keywords/codes in the "ReadWords.txt" and the bot will verify each of them and if he finds a good response he will save it in the "WorkingCodes.txt" file.
 
 Made with ❤ by Tedy
